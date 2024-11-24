@@ -9,7 +9,6 @@ from sklearn.metrics import accuracy_score
 import joblib
 import subprocess
 
-
 # Load trained models and preprocessing tools
 rf_model = joblib.load('random_forest_model.pkl')
 xgb_model = joblib.load('xgboost_model.pkl')
@@ -38,8 +37,22 @@ def block_ip(ip_address):
 # Streamlit App UI
 st.title("Network Attack Detection")
 
-st.write("### Upload File")
+st.write("### Download Sample File")
+# Provide download button for the sample file
+sample_file = 'combinedsampledata.csv'
+
+with open(sample_file, "rb") as f:
+    st.download_button(
+        label="Download Sample CSV File",
+        data=f,
+        file_name=sample_file,
+        mime="text/csv"
+    )
+
+st.write("### Upload Your CSV File")
+# Allow users to upload their file
 uploaded_file = st.file_uploader("Upload your CSV file here", type=["csv"])
+
 st.write("### Training Performance Evaluation of Various Models")
 comparisondf = pd.read_csv('comparisonintrainwithsvm.csv')
 st.dataframe(comparisondf, width=1000)
